@@ -23,6 +23,12 @@ public class FirstPersonController : MonoBehaviour {
 		float sideSpeed = Input.GetAxis ("Horizontal") * movementSpeed;
 		Vector3 speed = new Vector3 (sideSpeed, 0, forwardSpeed);
 		speed = transform.rotation * speed;
+		/*if (Input.GetAxis ("Jump")) {
+			speed.y = 5.0f;
+		}
+
+		speed.y -= 9.8f * Time.deltaTime;*/
+
 
 		CharacterController cc = GetComponent<CharacterController> ();
 		cc.SimpleMove (speed);
