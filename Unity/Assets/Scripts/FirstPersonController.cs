@@ -28,6 +28,7 @@ public class FirstPersonController : MonoBehaviour {
 		}
 
 		speed.y -= 9.8f * Time.deltaTime;*/
+		AudioSource stepSound = GetComponent<AudioSource> ();
 
 
 		CharacterController cc = GetComponent<CharacterController> ();
