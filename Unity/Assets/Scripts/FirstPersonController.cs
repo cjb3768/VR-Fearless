@@ -16,7 +16,7 @@ public class FirstPersonController : MonoBehaviour {
 		float rotLeftRight = Input.GetAxis ("Mouse X");
 		float rotUpDown = Input.GetAxis ("Mouse Y") * -1;
 		transform.Rotate (0, rotLeftRight, 0);
-		Camera.main.transform.Rotate (rotUpDown, 0, 0);
+		transform.Rotate (rotUpDown, 0, 0);
 
 		//Movement
 		float forwardSpeed = Input.GetAxis ("Vertical") * movementSpeed;
@@ -28,7 +28,7 @@ public class FirstPersonController : MonoBehaviour {
 		}
 
 		speed.y -= 9.8f * Time.deltaTime;*/
-		AudioSource stepSound = GetComponent<AudioSource> ();
+		//AudioSource stepSound = GetComponent<AudioSource> ();
 
 
 		CharacterController cc = GetComponent<CharacterController> ();
