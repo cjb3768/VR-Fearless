@@ -9,12 +9,12 @@ public class FirstPersonControllerMeadow : MonoBehaviour {
 	void Start () {
 		
 	}
-
+	
 	void OnGui () {
 		var testTextArea = new Rect (0, 0, Screen.width, Screen.height);
 		GUI.Label (testTextArea, "This is test text. Gold Team Rules.");
 	}
-
+	
 	// Update is called once per frame
 	void Update () {
 		//Rotation
