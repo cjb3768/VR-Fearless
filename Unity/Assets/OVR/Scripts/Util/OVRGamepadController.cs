@@ -67,8 +67,8 @@ public class OVRGamepadController : MonoBehaviour
 	/// </summary>
 	public static string[] DefaultAxisNames = new string[(int)Axis.Max]
 	{
-		"Left_X_Axis",
-		"Left_Y_Axis",
+		"Left Analog X",			//"Left_X_Axis",
+		"Left Analog Y",			//"Left_Y_Axis",
 		"Right_X_Axis",
 		"Right_Y_Axis",
 		"LeftTrigger",
