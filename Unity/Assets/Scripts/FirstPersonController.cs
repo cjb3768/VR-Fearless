@@ -16,7 +16,7 @@ public class FirstPersonController : MonoBehaviour {
 		float rotLeftRight = Input.GetAxis ("Mouse X");
 		float rotUpDown = Input.GetAxis ("Mouse Y") * -1;
 		transform.Rotate (0, rotLeftRight, 0);
-		transform.Rotate (rotUpDown, 0, 0);
+		Camera.main.transform.Rotate (rotUpDown, 0, 0);
 
 		//Movement
 		float forwardSpeed = Input.GetAxis ("Vertical") * movementSpeed;
