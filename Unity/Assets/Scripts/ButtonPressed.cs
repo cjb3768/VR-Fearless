@@ -15,6 +15,7 @@ public class ButtonPressed : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
 		if (Input.GetButtonDown (buttonPressed)) {
 			targetText.color = Color.blue;
 			targetText.text = buttonPressed + " Pressed";
