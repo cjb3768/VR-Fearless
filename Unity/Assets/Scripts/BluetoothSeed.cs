@@ -4,7 +4,7 @@ using System.IO.Ports;
 
 public class BluetoothSeed : MonoBehaviour {
 
-	public static SerialPort sp = new SerialPort("COM4", 9600, Parity.None, 8, StopBits.One);
+	public static SerialPort sp = new SerialPort("COM4", 115200, Parity.None, 8, StopBits.One);
 	public string message, message1;
 	public string message2;
 	
