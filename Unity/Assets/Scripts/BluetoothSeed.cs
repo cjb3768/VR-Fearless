@@ -8,8 +8,6 @@ public class BluetoothSeed : MonoBehaviour {
 	public string message, message1;
 	public string message2;
 	
-	
-	
 	void Start() {
 		
 		OpenConnection();   
@@ -18,8 +16,10 @@ public class BluetoothSeed : MonoBehaviour {
 	}
 	
 	void Update() { 
-		
-		message2 = sp.ReadLine(); 
+
+		//int mess = sp.ReadByte ();
+		//message2 = (string) mess; 
+		message2 = sp.ReadLine ();
 		
 	} 
 	
