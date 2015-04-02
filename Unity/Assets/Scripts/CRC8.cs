@@ -19,7 +19,7 @@ public class CRC8 {
 	{
 		int crc = 0;
 		
-		for(int index = 0; index< bytes.length; index++)
+		for(int index = 0; index< bytes.Length; index++)
 		{
 			crc =  (crc ^ bytes[index]) & 255;
 			for (int loop=0; loop<8; loop++)
