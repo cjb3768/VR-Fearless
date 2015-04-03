@@ -7,5 +7,5 @@ using System.Collections;
  */
 
 public interface ConnectedListener {
-	public void Connected(ConnectedEvent<T> eventArgs);
+	//public void Connected(ConnectedEvent<T> eventArgs);
 }
