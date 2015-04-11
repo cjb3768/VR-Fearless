@@ -6,6 +6,23 @@ using System.IO.Ports;
 
 public class BluetoothSeed : MonoBehaviour {
 
+	public struct dataPacket{
+		byte messageID;
+		byte payloadSize;
+		byte[] payload;
+		byte crc;
+		byte terminatingByte;
+
+		public dataPacket(byte _mid, byte _pls, byte[] _pl, byte _crc, byte _tb){
+			messageID = _mid;
+			payloadSize = _pls;
+			payload = new byte[payloadSize];
+			Array.Copy (_pl, payload, _pl.Length);
+			crc = _crc;
+			terminatingByte = _tb;
+		}
+	};
+
 	public static SerialPort serial = new SerialPort("COM4", 115200, Parity.None, 8, StopBits.One);
 	//public static SerialPort serialIn = new SerialPort("COM5", 115200, Parity.None, 8, StopBits.One);
 
@@ -14,7 +31,7 @@ public class BluetoothSeed : MonoBehaviour {
 	public string message2;
 	//public string receivedData = "";
 	public int ticksTillNextMessage = 2;
-	public event EventHandler<SerialDataEventArgs> NewSerialDataReceived;
+	//public event EventHandler<SerialDataEventArgs> NewSerialDataReceived;
 
 	private static byte STX = 0x02;
 	private static byte ETX = 0x03;
@@ -35,17 +52,18 @@ public class BluetoothSeed : MonoBehaviour {
 	//public static byte[] summaryPacketsStopRequest = {ETX, 0x00 , 0x00, 0x00, 0x02, (byte)0xBD, STX};
 	public static byte[] btLinkConfigPacket = {STX, (byte) 0xA4, 0x04, (byte) 0x0e, 0x00, 0x00, 0x00, 0x00, ETX}; 
 	//public static byte[] btLinkConfigPacket = {ETX, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, (byte)0xA4, STX};
-	public static byte[] generalPacketStartRequest = {STX, 0x14, 0x01, 0x01, 0x00, ETX};
-	public static byte[] generalPacketStopRequest = {STX, 0x14, 0x01, 0x00, 0x00, ETX};
 
+	/* for people who may be reading this code in the future: look in ZephyrPacket.cs for sample packets for ECG, breathing rate, etc */
+	/* specific information about the format of the packets can be found in the Bioharness Bluetooth Comms Link Specification document that comes with the bioharness SDK */
+	
 	private static int CRC8_POLY = 0x8C;
 	public CRC8 crc = new CRC8(CRC8_POLY);
 
 	void Start() {
-		serial.ReadBufferSize = 4096;
+		serial.ReadBufferSize = 4096;	
 		serial.WriteBufferSize = 2048;
 
-		serial.DataReceived += new SerialDataReceivedEventHandler (DataReceivedEventHandler);
+		//serial.DataReceived += new SerialDataReceivedEventHandler (DataReceivedEventHandler);
 		//OpenConnection(serialIn);
 		OpenConnection (serial);
 		//send lifesign message
@@ -56,9 +74,10 @@ public class BluetoothSeed : MonoBehaviour {
 		//InvokeRepeating ("sendJunkPacket", 0, 4);
 		//InvokeRepeating ("sendLifesign", 0, 5);
 		//InvokeRepeating ("sendBTLinkConfig", 0, 5);
-		InvokeRepeating ("sendSummaryPacketStartRequest", 0, 5);
-		InvokeRepeating ("printBytesToRead", 4, 5);
-
+		//InvokeRepeating ("sendSummaryPacketStartRequest", 0, 5);
+		sendSummaryPacketStartRequest ();
+		InvokeRepeating ("printBytesToRead", 1, 1);
+		InvokeRepeating ("sendLifesign", 0, 10);
 	}
 
 	void Update() { 
@@ -100,15 +119,105 @@ public class BluetoothSeed : MonoBehaviour {
 		//
 		Debug.Log ("Test");
 		//Debug.Log ("Bytes to read: " + serial.BytesToRead);
-		int bytes = 500;
+		int bytes = serial.ReadBufferSize;
 		//char[] s = new char[bytes]; //this one got us 5 byte returns in response to btlinkConfig
 		byte[] s = new byte[bytes];
 		int r=serial.Read(s,0,bytes);
 		//int r = serial.ReadExisting(
 		Debug.Log ("read "+r+" bytes: ");
 		for (int i=0; i<r; i++) {
-			Debug.Log ((byte)s[i]);
+			/*
+			if ((byte)s[i] == STX){
+				Debug.Log ("Start of new packet");
+			}
+			*/
+			//Debug.Log ((byte)s[i]);
+			/*
+			if ((byte)s[i] == ETX){
+				Debug.Log ("End of packet ETX");
+			}
+			else if ((byte)s[i] == ACK){
+				Debug.Log ("End of packet ACK");
+			}
+			else if ((byte)s[i] == NAK){
+				Debug.Log ("End of packet NAK");
+			}
+			*/
 		}
+		List<dataPacket> parsedPackets = parseBluetoothInput (s, r);
+		Debug.Log ("After parsing input into separate packets, number of packets: " + parsedPackets.Count);
+	}
+
+	/**
+	 * Parse raw input from bluetooth into separate packets
+	 * Returns a list of dataPackets
+	 */ 
+	public List<dataPacket> parseBluetoothInput(byte[] input, int inputLength){
+		//Debug.Log ("inputLength: " + inputLength);
+		int inputIterator = 0;
+
+		byte messageID = 0x00;
+		byte payloadLength = 0x00;
+		byte crcValue = 0x00;
+		byte terminatingByte = 0x00;
+
+		List <dataPacket> packets = new List<dataPacket> ();
+
+		while (inputIterator < inputLength){
+			Debug.Log ("inputIterator: " + inputIterator);
+			//stx
+			if (input[inputIterator] == STX){
+				Debug.Log("Packet found at : " + inputIterator);
+				inputIterator ++;
+
+				//get messageID
+				messageID = input[inputIterator];
+				inputIterator ++;
+
+				//get payloadLength
+				payloadLength = input[inputIterator];
+				inputIterator ++;
+
+				//get payload
+				byte[] payload = new byte[payloadLength];
+				Debug.Log ("About to copy payload");
+				Array.Copy (input, inputIterator - 1, payload, 0, payloadLength);
+				inputIterator += payloadLength;
+
+				//get crc
+				crcValue = input[inputIterator];
+				inputIterator ++;
+
+				//get terminating byte
+				terminatingByte = input[inputIterator]; 
+
+				if (terminatingByte == ETX){
+					Debug.Log ("Packet ends with etx");
+				}
+				else if (terminatingByte == ACK){
+					Debug.Log ("Packet ends with ack");
+				}
+				else if (terminatingByte == NAK){
+					Debug.Log ("Packet ends with nak");
+				}
+
+				inputIterator ++;
+				Debug.Log ("Iterator value: " + inputIterator);
+
+				//store data in packet
+				packets.Add(new dataPacket(messageID, payloadLength, payload, crcValue, terminatingByte));
+				Debug.Log ("Packet added: packets.Length = " + packets.Count);
+			}
+			else{
+				Debug.Log ("Bad packet");
+				Debug.Log ("expected 2 at " + inputIterator + ", instead got: " + input[inputIterator]);
+				//return; <- FIX ME WHEN WE START GETTING BAD PACKETS
+			}
+
+		}
+		//return packets
+		return packets;
+
 	}
 
 	public byte getMsgID (byte[] packet){
@@ -146,7 +255,7 @@ public class BluetoothSeed : MonoBehaviour {
 			}
 		}
 	}
-
+	/*
 	private void DataReceivedEventHandler(object sender, SerialDataReceivedEventArgs e){
 		//SerialPort sp = (SerialPort)sender;
 		int numBytes = serial.BytesToRead;
@@ -173,7 +282,7 @@ public class BluetoothSeed : MonoBehaviour {
 			reversedPacket[i] = sourcePacket[length-(i+1)];
 		}
 	}
-
+	*/
 	public void byteToInt(byte[] source, int[] destination){
 		int length = source.Length;
 		for (int i = 0; i < length; i++){
@@ -196,7 +305,7 @@ public class BluetoothSeed : MonoBehaviour {
 	public void sendJunkPacket(){
 		byte[] junkPacket = {0x00, 0x00, 0x00, 0x00};
 		byte[] reversedPacket = new byte[junkPacket.Length];
-		reversePacket (junkPacket, reversedPacket);
+		//reversePacket (junkPacket, reversedPacket);
 		serial.Write (reversedPacket, 0, reversedPacket.Length);
 		Debug.Log ("Sent Z Junk Packet");
 	}
@@ -246,18 +355,6 @@ public class BluetoothSeed : MonoBehaviour {
 			//serial.Write (reversedPacket, 0, reversedPacket.Length);
 			serial.Write (packet, 0, packet.Length);
 		} 
-		/**
-		else if (packet [1] == (byte)0xA4) {
-			//bt config set packet
-			byte[] crcCalc = new byte[4];
-			Array.Copy (packet, 3, crcCalc, 0, 4);
-			packet [7] = crc.Calculate (crcCalc);
-			reversePacket (packet, reversedPacket);
-			Debug.Log ("size of newPacket = " + reversedPacket.Length + "\n");
-			serial.Write (reversedPacket, 0, reversedPacket.Length);
-			//serial.Write (packet, 0, packet.Length);
-		}
-		*/
 		else if (packet [1] == (byte)0xA4) {
 			//bt config set packet
 			//printPacket (packet);
