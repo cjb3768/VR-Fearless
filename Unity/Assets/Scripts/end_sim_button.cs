@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class end_sim_button : MonoBehaviour {
+	bool nearButton = false;
 
 	// Use this for initialization
 	void Start () {
@@ -9,11 +10,15 @@ public class end_sim_button : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate () {
-
+	void Update () {
+		if (nearButton) {
+			if (Input.GetMouseButtonDown (0)) {
+				Application.LoadLevel (0);
+			}
+		}
 	}
 
 	void OnTriggerEnter(Collider other) {
-		Application.LoadLevel (0);
+		nearButton = true;
 	}
 }
