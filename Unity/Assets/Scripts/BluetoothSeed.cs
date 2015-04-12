@@ -144,7 +144,7 @@ public class BluetoothSeed : MonoBehaviour {
 			}
 			*/
 		}
-		List<dataPacket> parsedPackets = parseBluetoothInput (s, r);
+		List<DataPacket> parsedPackets = parseBluetoothInput (s, r);
 		Debug.Log ("After parsing input into separate packets, number of packets: " + parsedPackets.Count);
 	}
 
@@ -152,7 +152,7 @@ public class BluetoothSeed : MonoBehaviour {
 	 * Parse raw input from bluetooth into separate packets
 	 * Returns a list of dataPackets
 	 */ 
-	public List<dataPacket> parseBluetoothInput(byte[] input, int inputLength){
+	public List<DataPacket> parseBluetoothInput(byte[] input, int inputLength){
 		//Debug.Log ("inputLength: " + inputLength);
 		int inputIterator = 0;
 
@@ -161,13 +161,13 @@ public class BluetoothSeed : MonoBehaviour {
 		byte crcValue = 0x00;
 		byte terminatingByte = 0x00;
 
-		List <dataPacket> packets = new List<dataPacket> ();
+		List <DataPacket> packets = new List<DataPacket> ();
 
 		while (inputIterator < inputLength){
-			Debug.Log ("inputIterator: " + inputIterator);
+			//Debug.Log ("inputIterator: " + inputIterator);
 			//stx
 			if (input[inputIterator] == STX){
-				Debug.Log("Packet found at : " + inputIterator);
+				//Debug.Log("Packet found at : " + inputIterator);
 				inputIterator ++;
 
 				//get messageID
@@ -180,7 +180,7 @@ public class BluetoothSeed : MonoBehaviour {
 
 				//get payload
 				byte[] payload = new byte[payloadLength];
-				Debug.Log ("About to copy payload");
+				//Debug.Log ("About to copy payload");
 				Array.Copy (input, inputIterator - 1, payload, 0, payloadLength);
 				inputIterator += payloadLength;
 
@@ -192,21 +192,33 @@ public class BluetoothSeed : MonoBehaviour {
 				terminatingByte = input[inputIterator]; 
 
 				if (terminatingByte == ETX){
-					Debug.Log ("Packet ends with etx");
+					//Debug.Log ("Packet ends with etx");
 				}
 				else if (terminatingByte == ACK){
-					Debug.Log ("Packet ends with ack");
+					//Debug.Log ("Packet ends with ack");
 				}
 				else if (terminatingByte == NAK){
-					Debug.Log ("Packet ends with nak");
+					//Debug.Log ("Packet ends with nak");
 				}
 
 				inputIterator ++;
-				Debug.Log ("Iterator value: " + inputIterator);
+				//Debug.Log ("Iterator value: " + inputIterator);
 
 				//store data in packet
-				packets.Add(new dataPacket(messageID, payloadLength, payload, crcValue, terminatingByte));
-				Debug.Log ("Packet added: packets.Length = " + packets.Count);
+				if (messageID == (byte) 0x2B){
+					SummaryPacket sp = new SummaryPacket(messageID, payloadLength, payload, crcValue, terminatingByte);
+					packets.Add(sp);
+					Debug.Log ("Packet added: packets.Length = " + packets.Count);
+					Debug.Log ("Packet heartrate data = " + sp.getHeartRate());
+					Debug.Log ("Packet heartrate confidence = " + (byte) sp.getHeartRateConfidence());
+					Debug.Log ("raw heartrate confidence = " + (byte) payload[37]);
+					Debug.Log ("Packet heartrate variability = " + sp.getHeartRateVariability());
+					Debug.Log ("Packet system confidence = " + sp.getSystemConfidence());
+					Debug.Log ("Packet gsr data = " + sp.getGsr());
+				}
+				//packets.Add(new DataPacket(messageID, payloadLength, payload, crcValue, terminatingByte));
+				//Debug.Log ("Packet added: packets.Length = " + packets.Count);
+
 			}
 			else{
 				Debug.Log ("Bad packet");
