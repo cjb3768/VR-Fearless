@@ -181,7 +181,8 @@ public class BluetoothSeed : MonoBehaviour {
 				//get payload
 				byte[] payload = new byte[payloadLength];
 				//Debug.Log ("About to copy payload");
-				Array.Copy (input, inputIterator - 1, payload, 0, payloadLength);
+				//Array.Copy (input, inputIterator - 1, payload, 0, payloadLength);
+				Array.Copy (input, inputIterator, payload, 0, payloadLength);
 				inputIterator += payloadLength;
 
 				//get crc
@@ -208,11 +209,14 @@ public class BluetoothSeed : MonoBehaviour {
 				if (messageID == (byte) 0x2B){
 					SummaryPacket sp = new SummaryPacket(messageID, payloadLength, payload, crcValue, terminatingByte);
 					packets.Add(sp);
-					Debug.Log ("Packet added: packets.Length = " + packets.Count);
+					//Debug.Log ("Packet added: packets.Length = " + packets.Count);
+					Debug.Log ("Packet is of message type : " + messageID);
+					Debug.Log ("Packet sequence number : "  + sp.getSequenceNumber());
 					Debug.Log ("Packet heartrate data = " + sp.getHeartRate());
 					Debug.Log ("Packet heartrate confidence = " + (byte) sp.getHeartRateConfidence());
-					Debug.Log ("raw heartrate confidence = " + (byte) payload[37]);
 					Debug.Log ("Packet heartrate variability = " + sp.getHeartRateVariability());
+					Debug.Log ("Packet respiration rate data = " + sp.getRespirationRate());
+					Debug.Log ("Packet breathing rate confidence = " + (byte) sp.getBreathingRateConfidence());
 					Debug.Log ("Packet system confidence = " + sp.getSystemConfidence());
 					Debug.Log ("Packet gsr data = " + sp.getGsr());
 				}

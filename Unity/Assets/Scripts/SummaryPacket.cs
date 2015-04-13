@@ -95,96 +95,108 @@ public class SummaryPacket : DataPacket {
 	}
 
 	public byte getSequenceNumber(){
-		return base.getPayload() [3];
+		return base.getPayload() [0];
 	}
 
 	public int getTimestampYear(){
-		return (base.getPayload() [4] 
-		        + (256 * base.getPayload() [5])); 
+		return (base.getPayload() [1] 
+		        + (256 * base.getPayload() [2])); 
 	}
 	
 	public int getTimestampMonth(){
-		return base.getPayload() [6];
+		return base.getPayload() [3];
 	}
 
 	public int getTimestampDay(){
-		return base.getPayload() [7];
+		return base.getPayload() [4];
 	}
 
 	public long getTimestampMilliseconds(){
-		return (base.getPayload () [8] 
-		        + (256 * base.getPayload () [9]) 
-		        + (256 * 256 * base.getPayload () [10]) 
-		        + (256 * 256 * 256 * base.getPayload () [11]));
+		return (base.getPayload () [5] 
+		        + (256 * base.getPayload () [6]) 
+		        + (256 * 256 * base.getPayload () [7]) 
+		        + (256 * 256 * 256 * base.getPayload () [8]));
 	}
 
 	public byte getVersionNumber(){
-		return base.getPayload() [12];
+		return base.getPayload() [9];
 	}
 	
 	public int getHeartRate(){
 	//public short getHeartRate(){
 		//return BitConverter.ToInt16 (base.getPayload (), 13);
-		return (base.getPayload () [13] 
-		        + (256 * base.getPayload() [14]));
+		return (base.getPayload () [10] 
+		        + (256 * base.getPayload() [11]));
 	}
 
 	public float getRespirationRate(){
-		return (float) ((base.getPayload() [15] 
-		                 + (256 * base.getPayload() [16])) / 10);
+		return (float) (base.getPayload() [12] 
+		                 + (256 * base.getPayload() [13])) / 10f;
 	}
 
 	public float getSkinTemperature(){
-		return (float)((base.getPayload () [17] 
-		                + (256 * base.getPayload () [18])) / 10);
+		return (float)(base.getPayload () [14] 
+		                + (256 * base.getPayload () [15])) / 10f;
 	}
 
 	public int getPosture(){
-		return (base.getPayload () [19] 
-		        + (256 * base.getPayload () [20]));
+		return (base.getPayload () [16] 
+		        + (256 * base.getPayload () [17]));
 	}
 	
 	public float getActivity(){
-		return (float) ((base.getPayload() [21] 
-		                + (256 * base.getPayload() [22])) / 100);
+		return (float) (base.getPayload() [18] 
+		                + (256 * base.getPayload() [19])) / 100f;
 	}
 
 	public float getPeakAcceleration(){
-		return (float) ((base.getPayload() [23] 
-		                + (256 * base.getPayload() [24])) / 100);
+		return (float) (base.getPayload() [20] 
+		                + (256 * base.getPayload() [21])) / 100f;
 	}
 
 	public float getBatteryVoltage(){
-		return (float) ((base.getPayload() [25] 
-		                + (256 * base.getPayload() [26])) / 1000);
+		return (float) (base.getPayload() [22] 
+		                + (256 * base.getPayload() [23])) / 1000f;
 	}
 
 	public byte getBatteryLevel(){
 		//fix later
 		return 0;
 	}
+
+	public int getBreathingWaveAmplitude(){
+		return (base.getPayload() [25] 
+		         + (256 * base.getPayload() [26]));
+	}
+
+	public int breathingWaveNoise(){
+		return (base.getPayload() [27] 
+		        + (256 * base.getPayload() [28]));
+	}
+
+	public byte getBreathingRateConfidence(){
+		return (base.getPayload() [29] );
+	}
 	/*
-	int breathingWaveAmplitude;
-	int breathingWaveNoise;
-	byte breathingRateConfidence;
 	int ecgAmplitude;
 	int ecgNoise;
 	*/
 	public byte getHeartRateConfidence(){
-		return base.getPayload() [37];
+		return base.getPayload() [34];
 	}
 
 	public int getHeartRateVariability(){
-		return (base.getPayload() [38] + (256 * base.getPayload() [39]));
+		return (base.getPayload() [35] 
+		        + (256 * base.getPayload() [36]));
 	}
 
 	public byte getSystemConfidence(){
-		return base.getPayload() [40];
+		return base.getPayload() [37];
 	}
 
 	public int getGsr(){
-		return (base.getPayload() [41] 
-		        + (256 * base.getPayload() [42]));
+		return (base.getPayload() [38] 
+		        + (256 * base.getPayload() [39]));
 	}
 	/*
 	int rog;
