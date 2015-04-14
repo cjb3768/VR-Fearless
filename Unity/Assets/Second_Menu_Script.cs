@@ -7,7 +7,7 @@ public class Second_Menu_Script : MonoBehaviour {
 	public int ButtonWidth = 150;
 	public int Spacing = 37;
 	public Texture dreams;
-	int hslidervalue = 1;
+	float hslidervalue = 1.0f;
 	// Use this for initialization
 	void Start () {
 	
@@ -41,9 +41,9 @@ public class Second_Menu_Script : MonoBehaviour {
 			//hslidervalue = EditorGUI.IntSlider(Rect(Screen.width/ 2 - ButtonWidth/2, Screen.height/2 - 100, ButtonWidth, 20), hslidervalue, 1.0f, 2.0f);
 			GUILayout.BeginArea (new Rect (Screen.width / 2 - ButtonWidth / 2, Screen.height / 2 - 200, ButtonWidth, 400));
 			hslidervalue = GUILayout.HorizontalSlider(hslidervalue, 1.0f, 2.0f);
-			hslidervalue = (int)hslidervalue;
+			//hslidervalue = (int)hslidervalue;
 			if (GUILayout.Button ("Start", GUILayout.Height (ButtonHeight))) {
-				Application.LoadLevel (hslidervalue);
+				Application.LoadLevel ((int)hslidervalue + 3);
 			}
 			if(GUILayout.Button("Back", GUILayout.Height(ButtonHeight))) {
 				mainpage = 0;
@@ -57,7 +57,7 @@ public class Second_Menu_Script : MonoBehaviour {
 			hslidervalue = GUILayout.HorizontalSlider(hslidervalue, 1.0f, 2.0f);
 			hslidervalue = (int)hslidervalue;
 			if (GUILayout.Button ("Start", GUILayout.Height (ButtonHeight))) {
-				Application.LoadLevel (hslidervalue);
+				Application.LoadLevel ((int)hslidervalue + 2);
 			}
 			if(GUILayout.Button("Back", GUILayout.Height(ButtonHeight))) {
 				mainpage = 0;
