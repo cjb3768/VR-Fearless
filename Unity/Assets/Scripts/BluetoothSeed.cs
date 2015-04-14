@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO.Ports;
 
 public class BluetoothSeed : MonoBehaviour {
-
+	/*
 	public struct dataPacket{
 		byte messageID;
 		byte payloadSize;
@@ -22,6 +22,7 @@ public class BluetoothSeed : MonoBehaviour {
 			terminatingByte = _tb;
 		}
 	};
+	*/
 
 	public static SerialPort serial = new SerialPort("COM4", 115200, Parity.None, 8, StopBits.One);
 	//public static SerialPort serialIn = new SerialPort("COM5", 115200, Parity.None, 8, StopBits.One);
@@ -29,8 +30,12 @@ public class BluetoothSeed : MonoBehaviour {
 
 	public string message, message1;
 	public string message2;
+	public string filePath;
+	public System.IO.StreamWriter outputFile;
+
+	public List<SummaryPacket> summaryPackets;
 	//public string receivedData = "";
-	public int ticksTillNextMessage = 2;
+	//public int ticksTillNextMessage = 2;
 	//public event EventHandler<SerialDataEventArgs> NewSerialDataReceived;
 
 	private static byte STX = 0x02;
@@ -60,6 +65,11 @@ public class BluetoothSeed : MonoBehaviour {
 	public CRC8 crc = new CRC8(CRC8_POLY);
 
 	void Start() {
+		filePath = "Logs\\";
+		//outputFile = new System.IO.StreamWriter(@filePath);
+
+		summaryPackets = new List<SummaryPacket>();
+
 		serial.ReadBufferSize = 4096;	
 		serial.WriteBufferSize = 2048;
 
@@ -232,8 +242,47 @@ public class BluetoothSeed : MonoBehaviour {
 
 		}
 		//return packets
-		return packets;
+		for (int i = 0; i < packets.Count; i++) {
+			if (packets[i].getMessageID() == (byte)0x2B){
+				summaryPackets.Add 
+					(new SummaryPacket(packets[i].getMessageID(),
+					                   packets[i].getPayloadSize(),
+					                   packets[i].getPayload (),
+					                   packets[i].getCRC (),
+					                   packets[i].getTerminatingByte()));
 
+			}
+		}
+		return packets;
+	}
+
+	public void writeLogToFile(List<SummaryPacket> packets){
+		long hrs;
+		long min;
+		long sec;
+
+		DateTime rightNow = DateTime.Now;
+		filePath += "log-" + rightNow.Month + "-" + rightNow.Day + "-"
+			+ rightNow.Year + "-" + rightNow.Hour + "-" 
+			+ rightNow.Minute + "-" + rightNow.Second + ".txt";
+
+		outputFile = new System.IO.StreamWriter(@filePath);
+
+		using (outputFile){
+			foreach (SummaryPacket sp in packets){
+				hrs = (sp.getTimestampMilliseconds () / 3600000);
+				min = ((sp.getTimestampMilliseconds () % 3600000) / 60000);
+				sec = (((sp.getTimestampMilliseconds () % 3600000) % 60000) / 1000);
+				string lineToPrint = sp.getTimestampMonth() + "/" 
+					+ sp.getTimestampDay() + "/"
+					+ sp.getTimestampYear() + ","
+					+ hrs + ":" + min + ":" + sec + ","
+					+ sp.getHeartRate() + ","
+					+ sp.getHeartRateVariability() + ","
+					+ sp.getHeartRateConfidence() + "\n";
+				outputFile.WriteLine(lineToPrint);
+			}
+		}
 	}
 
 	public byte getMsgID (byte[] packet){
@@ -394,6 +443,7 @@ public class BluetoothSeed : MonoBehaviour {
 	}
 	
 	void OnApplicationQuit() {
+		writeLogToFile (summaryPackets);
 		serial.Close();
 	}
 }

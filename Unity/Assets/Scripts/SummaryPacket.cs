@@ -53,17 +53,6 @@ public class SummaryPacket : DataPacket {
 		//byte [] summaryPayload = new byte[base.getPayloadSize ()];
 		//Array.Copy (base.getPayload (), base.getPayload(), base.getPayloadSize ());
 
-		//set batteryVoltage
-		batteryVoltage = (float) (base.getPayload() [25] + (256 * base.getPayload() [26]))/1000;
-		//check for valid batteryVoltage
-		if (batteryVoltage == 65.535) {
-			//invalid batteryVoltage, set validBatteryVoltage to false
-			validBatteryVoltage = false;
-		} 
-		else {
-			validBatteryVoltage = true;
-		}
-
 		//set batteryLevel
 
 		//set breathingWaveAmplitude
@@ -160,8 +149,7 @@ public class SummaryPacket : DataPacket {
 	}
 
 	public byte getBatteryLevel(){
-		//fix later
-		return 0;
+		return base.getPayload() [24];
 	}
 
 	public int getBreathingWaveAmplitude(){
@@ -177,10 +165,18 @@ public class SummaryPacket : DataPacket {
 	public byte getBreathingRateConfidence(){
 		return (base.getPayload() [29] );
 	}
-	/*
-	int ecgAmplitude;
-	int ecgNoise;
-	*/
+
+	public float getEcgAmplitude(){
+		return (float)(base.getPayload () [30]
+			+ (256 * base.getPayload () [31])) / 100000f;
+	}
+
+	public float getEcgNoise(){
+		return (float)(base.getPayload () [32]
+			+ (256 * base.getPayload () [33])) / 100000f;
+
+	}
+
 	public byte getHeartRateConfidence(){
 		return base.getPayload() [34];
 	}
@@ -199,7 +195,11 @@ public class SummaryPacket : DataPacket {
 		        + (256 * base.getPayload() [39]));
 	}
 	/*
-	int rog;
+	public int getRog(){
+		return 
+	}
+	*/
+	/*
 	int verticalAxisAccelerationMin;
 	int verticalAxisAccelerationPeak;
 	int lateralAxisAccelerationMin;
@@ -208,7 +208,12 @@ public class SummaryPacket : DataPacket {
 	int sagittalAxisAccelerationPeak;
 	int deviceInternalTemp;
 	int statusInfo;
-	byte linkQuality;
+	*/
+	public byte getLinkQuality(){
+		return base.getPayload () [58];
+	}
+
+	/*
 	byte rssi;
 	byte txPower;
 	int estimatedCoreTemperature;
@@ -278,7 +283,13 @@ public class SummaryPacket : DataPacket {
 	}
 
 	public bool getValidBreathingWaveAmplitude(){
-		return validBreathingWaveAmplitude;
+		if (getBreathingWaveAmplitude() == 65535) {
+			//invalid breathingWaveAmplitude, return false
+			return false;
+		} 
+		else {
+			return true;
+		}
 	}
 
 	public bool getValidBreathingWaveNoise(){
@@ -286,7 +297,13 @@ public class SummaryPacket : DataPacket {
 	}
 
 	public bool getValidBreathingRateConfidence(){
-		return validBreathingRateConfidence;
+		if (getBreathingRateConfidence() == 255) {
+			//invalid breathingRateConfidence, return false
+			return false;
+		}
+		else{
+			return true;
+		}
 	}
 
 	public bool getValidEcgAmplitude(){
@@ -341,11 +358,27 @@ public class SummaryPacket : DataPacket {
 		return validRog;
 	}
 
-	public bool getValidAccelerationMin(){
+	public bool getValidVerticalAxisAccelerationMin(){
 		return validAccelerationMin;
 	}
 
-	public bool getValidAccelerationPeak(){
+	public bool getValidVerticalAxisAccelerationPeak(){
+		return validAccelerationPeak;
+	}
+
+	public bool getValidLateralAxisAccelerationMin(){
+		return validAccelerationMin;
+	}
+	
+	public bool getValidLateralAxisAccelerationPeak(){
+		return validAccelerationPeak;
+	}
+
+	public bool getValidSagittalAxisAccelerationMin(){
+		return validAccelerationMin;
+	}
+	
+	public bool getValidSagittalAxisAccelerationPeak(){
 		return validAccelerationPeak;
 	}
 
@@ -366,7 +399,13 @@ public class SummaryPacket : DataPacket {
 	}
 
 	public bool getValidBatteryVoltage(){
-		return validBatteryVoltage;
+		if (getBatteryVoltage() == 65.535) {
+			//invalid batteryVoltage, return false
+			return false;
+		} 
+		else {
+			return true;
+		}
 	}
 
 	public bool getValidBatteryLevel(){
