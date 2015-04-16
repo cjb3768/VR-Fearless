@@ -19,6 +19,8 @@ public class end_sim_button : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other) {
-		nearButton = true;
+		if (other.tag == "Button") {
+			nearButton = true;
+		}
 	}
 }
