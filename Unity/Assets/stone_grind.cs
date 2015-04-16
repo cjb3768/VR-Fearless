@@ -14,4 +14,10 @@ public class stone_grind : MonoBehaviour {
 	void Update () {
 	
 	}
+
+	void OnTriggerEnter(Collider other) {
+		if (other.tag == "Wall") {
+			audio.Play ();
+		}
+	}
 }
