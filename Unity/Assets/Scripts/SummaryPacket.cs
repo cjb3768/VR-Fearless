@@ -12,76 +12,10 @@ using System.Collections;
 
 public class SummaryPacket : DataPacket {
 
-	//payload information
-	float batteryVoltage;
+	//constructor
+	public SummaryPacket(byte _mid, byte _pls, byte[] _pl, byte _crc, byte _tb) : base (_mid, _pls, _pl, _crc, _tb) {}
 
-	//booleans for valid data
-
-	bool validActivity;
-	bool validPeakAcceleration;
-	bool validBreathingWaveAmplitude;
-	bool validBreathingWaveNoise;
-	bool validBreathingRateConfidence;
-	bool validEcgAmplitude;
-	bool validEcgNoise;
-	bool validHeartRateConfidence;
-	bool validHeartRateVariability;
-	bool validSystemConfidence;
-	bool validRog;
-	bool validAccelerationMin;
-	bool validAccelerationPeak;
-	bool validEstimatedCoreTemperature;
-	bool validAuxiliaryAdcChannel1;
-	bool validAuxiliaryAdcChannel2;
-	bool validAuxiliaryAdcChannel3;
-	bool validBatteryVoltage;
-	bool validBatteryLevel;
-	bool validStatusInfo;
-	bool validLinkQuality;
-	bool validRssi;
-	bool validTxPower;
-
-	public SummaryPacket(byte _mid, byte _pls, byte[] _pl, byte _crc, byte _tb) : base (_mid, _pls, _pl, _crc, _tb){
-		//setSummaryInfo ();
-	}
-
-	/**
-	 * Goes through the payload and stores relevant data in packet member variables
-	 * TO-DO: Finish setting values
-	 */
-	public void setSummaryInfo(){
-		//byte [] summaryPayload = new byte[base.getPayloadSize ()];
-		//Array.Copy (base.getPayload (), base.getPayload(), base.getPayloadSize ());
-
-		//set batteryLevel
-
-		//set breathingWaveAmplitude
-
-		//set breathingWaveNoise
-
-		//set breathingRateConfidence
-
-		//set ecgAmplitude
-
-		//set ecgNoise
-
-		//set rog
-		//set verticalAxisAccelerationMin
-		//set verticalAxisAccelerationPeak
-		//set lateralAxisAccelerationMin
-		//set lateralAxisAccelerationPeak
-		//set sagittalAxisAccelerationMin
-		//set sagittalAxisAccelerationPeak
-		//set deviceInternalTemp
-		//set statusInfo
-		//set linkQuality
-		//set rssi
-		//set txPower
-		//set estimatedCoreTemperature
-		//set auxiliaryAdcChannel1
-		//set auxiliaryAdcChannel2
-		//set auxiliaryAdcChannel3
-	}
+	//------------------getter methods for info from payload--------------------
 
 	public byte getSequenceNumber(){
 		return base.getPayload() [0];
@@ -112,8 +46,6 @@ public class SummaryPacket : DataPacket {
 	}
 	
 	public int getHeartRate(){
-	//public short getHeartRate(){
-		//return BitConverter.ToInt16 (base.getPayload (), 13);
 		return (base.getPayload () [10] 
 		        + (256 * base.getPayload() [11]));
 	}
@@ -140,12 +72,12 @@ public class SummaryPacket : DataPacket {
 
 	public float getPeakAcceleration(){
 		return (float) (base.getPayload() [20] 
-		                + (256 * base.getPayload() [21])) / 100f;
+		        + (256 * base.getPayload() [21])) / 100f;
 	}
 
 	public float getBatteryVoltage(){
 		return (float) (base.getPayload() [22] 
-		                + (256 * base.getPayload() [23])) / 1000f;
+		    	+ (256 * base.getPayload() [23])) / 1000f;
 	}
 
 	public byte getBatteryLevel(){
@@ -154,12 +86,12 @@ public class SummaryPacket : DataPacket {
 
 	public int getBreathingWaveAmplitude(){
 		return (base.getPayload() [25] 
-		         + (256 * base.getPayload() [26]));
+		    	+ (256 * base.getPayload() [26]));
 	}
 
-	public int breathingWaveNoise(){
+	public int getBreathingWaveNoise(){
 		return (base.getPayload() [27] 
-		        + (256 * base.getPayload() [28]));
+		    	+ (256 * base.getPayload() [28]));
 	}
 
 	public byte getBreathingRateConfidence(){
@@ -168,12 +100,12 @@ public class SummaryPacket : DataPacket {
 
 	public float getEcgAmplitude(){
 		return (float)(base.getPayload () [30]
-			+ (256 * base.getPayload () [31])) / 100000f;
+				+ (256 * base.getPayload () [31])) / 100000f;
 	}
 
 	public float getEcgNoise(){
 		return (float)(base.getPayload () [32]
-			+ (256 * base.getPayload () [33])) / 100000f;
+				+ (256 * base.getPayload () [33])) / 100000f;
 
 	}
 
@@ -183,7 +115,7 @@ public class SummaryPacket : DataPacket {
 
 	public int getHeartRateVariability(){
 		return (base.getPayload() [35] 
-		        + (256 * base.getPayload() [36]));
+		    	+ (256 * base.getPayload() [36]));
 	}
 
 	public byte getSystemConfidence(){
@@ -192,35 +124,94 @@ public class SummaryPacket : DataPacket {
 
 	public int getGsr(){
 		return (base.getPayload() [38] 
-		        + (256 * base.getPayload() [39]));
+		    	+ (256 * base.getPayload() [39]));
 	}
-	/*
+
+	/**
+	 * Note: this gives the numeric value of the ROG bytes, not a simple red, orange, or green
+	 */
 	public int getRog(){
-		return 
+		return (base.getPayload() [40] 
+		        + (256 * base.getPayload() [41]));
 	}
-	*/
-	/*
-	int verticalAxisAccelerationMin;
-	int verticalAxisAccelerationPeak;
-	int lateralAxisAccelerationMin;
-	int lateralAxisAccelerationPeak;
-	int sagittalAxisAccelerationMin;
-	int sagittalAxisAccelerationPeak;
-	int deviceInternalTemp;
-	int statusInfo;
-	*/
+
+
+	public float getVerticalAxisAccelerationMin(){
+		return (base.getPayload() [42] 
+		    	+ (256 * base.getPayload() [43]))/100f;
+	}
+
+	public float getVerticalAxisAccelerationPeak(){
+		return (base.getPayload () [44] 
+				+ (256 * base.getPayload () [45])) / 100f;
+	}
+
+	public float getLateralAxisAccelerationMin(){
+		return (base.getPayload () [46] 
+				+ (256 * base.getPayload () [47])) / 100f;
+	}
+
+	public float getLateralAxisAccelerationPeak(){
+		return (base.getPayload () [48] 
+				+ (256 * base.getPayload () [49])) / 100f;
+	}
+
+	public float getSagittalAxisAccelerationMin(){
+		return (base.getPayload () [50] 
+				+ (256 * base.getPayload () [51])) / 100f;
+	}
+
+	public float getSagittalAxisAccelerationPeak(){
+		return (base.getPayload () [52] 
+				+ (256 * base.getPayload () [53])) / 100f;
+	}
+
+	public float getDeviceInternalTemp(){
+		return (base.getPayload () [54] 
+		        + (256 * base.getPayload () [55])) / 10f;
+	}
+
+	/**
+	 * Note: this gives the numeric value of the status info bytes, not a detailed log of status information
+	 */
+	public int getStatusInfo(){
+		return (base.getPayload () [56] 
+				+ (256 * base.getPayload () [57]));
+	}
+
 	public byte getLinkQuality(){
 		return base.getPayload () [58];
 	}
+	
+	public byte getRssi(){
+		return base.getPayload () [59];
+	}
 
-	/*
-	byte rssi;
-	byte txPower;
-	int estimatedCoreTemperature;
-	int auxiliaryAdcChannel1;
-	int auxiliaryAdcChannel2;
-	int auxiliaryAdcChannel3;
-	*/
+	public byte getTxPower(){
+		return base.getPayload () [60];
+	}
+
+	public float getEstimatedCoreTemperature(){
+		return (base.getPayload () [61] 
+		        + (256 * base.getPayload () [62]));
+	}
+
+	public int getAuxiliaryAdcChannel1(){
+		return (base.getPayload () [63] 
+		        + (256 * base.getPayload () [64]));
+	}
+
+	public int getAuxiliaryAdcChannel2(){
+		return (base.getPayload () [65] 
+		        + (256 * base.getPayload () [66]));
+	}
+
+	public int getAuxiliaryAdcChannel3(){
+		return (base.getPayload () [67] 
+		        + (256 * base.getPayload () [68]));
+	}
+	
+	//------------------getter methods for payload info validity checking--------------------
 
 	public bool getValidHeartRate(){
 		if (getHeartRate() == 65535) {
@@ -273,13 +264,13 @@ public class SummaryPacket : DataPacket {
 	}
 
 	public bool getValidPeakAcceleration(){
-			if (getPeakAcceleration() == 655.35) {
-				//invalid peakAcceleration, return false
-				return false;
-			} 
-			else {
-				return true;
-			}
+		if (getPeakAcceleration() == 655.35) {
+			//invalid peakAcceleration, return false
+			return false;
+		} 
+		else {
+			return true;
+		}
 	}
 
 	public bool getValidBreathingWaveAmplitude(){
@@ -293,7 +284,13 @@ public class SummaryPacket : DataPacket {
 	}
 
 	public bool getValidBreathingWaveNoise(){
-		return validBreathingWaveNoise;
+		if (getBreathingWaveNoise () == 65535) {
+			//invalid breathingWaveNoise, return false
+			return false;
+		} 
+		else {
+			return true;
+		}
 	}
 
 	public bool getValidBreathingRateConfidence(){
@@ -307,11 +304,23 @@ public class SummaryPacket : DataPacket {
 	}
 
 	public bool getValidEcgAmplitude(){
-		return validEcgAmplitude;
+		if (getEcgAmplitude() == 0.065535) {
+			//invalid ecgAmplitude, return false
+			return false;
+		} 
+		else {
+			return true;
+		}
 	}
 
 	public bool getValidEcgNoise(){
-		return validEcgNoise;
+		if (getEcgNoise() == 0.065535) {
+			//invalid ecgNoise, return false
+			return false;
+		} 
+		else {
+			return true;
+		}
 	}
 
 	public bool getValidHeartRateConfidence(){
@@ -355,47 +364,113 @@ public class SummaryPacket : DataPacket {
 	}
 
 	public bool getValidRog(){
-		return validRog;
+		if (getRog() == 0) {
+			//invalid rog, return false
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 
 	public bool getValidVerticalAxisAccelerationMin(){
-		return validAccelerationMin;
+		if (getVerticalAxisAccelerationMin () == -327.68) {
+			//invalid verticalAxisAccelerationMin, return false
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 
 	public bool getValidVerticalAxisAccelerationPeak(){
-		return validAccelerationPeak;
+		if (getVerticalAxisAccelerationPeak () == -327.68) {
+			//invalid verticalAxisAccelerationPeak, return false
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 
 	public bool getValidLateralAxisAccelerationMin(){
-		return validAccelerationMin;
+		if (getLateralAxisAccelerationMin () == -327.68) {
+			//invalid lateralAxisAccelerationMin, return false
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 	
 	public bool getValidLateralAxisAccelerationPeak(){
-		return validAccelerationPeak;
+		if (getLateralAxisAccelerationPeak () == -327.68) {
+			//invalid lateralAxisAccelerationPeak, return false
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 
 	public bool getValidSagittalAxisAccelerationMin(){
-		return validAccelerationMin;
+		if (getSagittalAxisAccelerationMin () == -327.68) {
+			//invalid sagittalAxisAccelerationMin, return false
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 	
 	public bool getValidSagittalAxisAccelerationPeak(){
-		return validAccelerationPeak;
+		if (getSagittalAxisAccelerationPeak () == -327.68) {
+			//invalid sagittalAxisAccelerationPeak, return false
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 
 	public bool getValidEstimatedCoreTemperature(){
-		return validEstimatedCoreTemperature;
+		if (getEstimatedCoreTemperature() == 6553.5) {
+			//invalid estimatedCoreTemperature, return false
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 
 	public bool getValidAuxiliaryAdcChannel1(){
-		return validAuxiliaryAdcChannel1;
+		if (getAuxiliaryAdcChannel1 () == 65535) {
+			//invalid auxiliaryAdcChannel1, return false
+			return false;
+		} 
+		else {
+			return true;
+		}
 	}
 
 	public bool getValidAuxiliaryAdcChannel2(){
-		return validAuxiliaryAdcChannel2;
+		if (getAuxiliaryAdcChannel2 () == 65535) {
+			//invalid auxiliaryAdcChannel2, return false
+			return false;
+		} 
+		else {
+			return true;
+		}
 	}
 
 	public bool getValidAuxiliaryAdcChannel3(){
-		return validAuxiliaryAdcChannel3;
+		if (getAuxiliaryAdcChannel3 () == 65535) {
+			//invalid auxiliaryAdcChannel3, return false
+			return false;
+		} 
+		else {
+			return true;
+		}
 	}
 
 	public bool getValidBatteryVoltage(){
@@ -409,22 +484,52 @@ public class SummaryPacket : DataPacket {
 	}
 
 	public bool getValidBatteryLevel(){
-		return validBatteryLevel;
+		if (getBatteryLevel() == 255) {
+			//invalid batteryLevel, return false
+			return false;
+		} 
+		else {
+			return true;
+		}
 	}
 
 	public bool getValidStatusInfo(){
-		return validStatusInfo;
+		if (getStatusInfo() == 0) {
+			//invalid statusInfo, return false
+			return false;
+		} 
+		else {
+			return true;
+		}
 	}
 
 	public bool getValidLinkQuality(){
-		return validLinkQuality;
+		if (getLinkQuality() == 255) {
+			//invalid linkQuality, return false
+			return false;
+		} 
+		else {
+			return true;
+		}
 	}
 
 	public bool getValidRssi(){
-		return validRssi;
+		if (getRssi() == -128) {
+			//invalid rssi, return false
+			return false;
+		} 
+		else {
+			return true;
+		}
 	}
 
 	public bool getValidTxPower(){
-		return validTxPower;
+		if (getTxPower() == -128) {
+			//invalid txPower, return false
+			return false;
+		} 
+		else {
+			return true;
+		}
 	}
 }
