@@ -133,7 +133,7 @@ public class BluetoothSeed : MonoBehaviour {
 
 				//store data in packet
 				if (messageID == (byte) 0x2B){
-					SummaryPacket sp = new SummaryPacket(messageID, payloadLength, payload, crcValue, terminatingByte);
+					SummaryPacket sp = new SummaryPacket(messageID, payloadLength, payload, crcValue, terminatingByte, Application.loadedLevel);
 					packets.Add(sp);
 					//Debug.Log ("Packet added: packets.Length = " + packets.Count);
 					Debug.Log ("Packet is of message type : " + messageID);
@@ -145,6 +145,9 @@ public class BluetoothSeed : MonoBehaviour {
 					Debug.Log ("Packet breathing rate confidence = " + (byte) sp.getBreathingRateConfidence());
 					Debug.Log ("Packet system confidence = " + sp.getSystemConfidence());
 					Debug.Log ("Packet gsr data = " + sp.getGsr());
+				}
+				else{
+					packets.Add (new DataPacket(messageID, payloadLength, payload, crcValue, terminatingByte));
 				}
 				//packets.Add(new DataPacket(messageID, payloadLength, payload, crcValue, terminatingByte));
 				//Debug.Log ("Packet added: packets.Length = " + packets.Count);
@@ -165,8 +168,8 @@ public class BluetoothSeed : MonoBehaviour {
 					                   packets[i].getPayloadSize(),
 					                   packets[i].getPayload (),
 					                   packets[i].getCRC (),
-					                   packets[i].getTerminatingByte()));
-
+					                   packets[i].getTerminatingByte(),
+					                   Application.loadedLevel));
 			}
 		}
 		return packets;
@@ -195,7 +198,8 @@ public class BluetoothSeed : MonoBehaviour {
 					+ hrs + ":" + min + ":" + sec + ","
 					+ sp.getHeartRate() + ","
 					+ sp.getHeartRateVariability() + ","
-					+ sp.getHeartRateConfidence() + "\n";
+					+ sp.getHeartRateConfidence() + ","
+					+ sp.getCurrentScene() + "\n";
 				outputFile.WriteLine(lineToPrint);
 			}
 		}

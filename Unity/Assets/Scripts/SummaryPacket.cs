@@ -12,8 +12,16 @@ using System.Collections;
 
 public class SummaryPacket : DataPacket {
 
+	int currentScene;
+
 	//constructor
-	public SummaryPacket(byte _mid, byte _pls, byte[] _pl, byte _crc, byte _tb) : base (_mid, _pls, _pl, _crc, _tb) {}
+	public SummaryPacket(byte _mid, byte _pls, byte[] _pl, byte _crc, byte _tb, int _scene) : base (_mid, _pls, _pl, _crc, _tb) {
+		currentScene = _scene; //used to determine what scene we were in when packet was received
+	}
+
+	public int getCurrentScene(){
+		return currentScene;
+	}
 
 	//------------------getter methods for info from payload--------------------
 
