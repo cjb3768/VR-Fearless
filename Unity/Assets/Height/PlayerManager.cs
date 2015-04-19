@@ -9,10 +9,25 @@ public class PlayerManager : MonoBehaviour {
 
 	public AudioClip gravelFootsteps;
 	public AudioClip bridgeFootsteps;
-	Vector3 currentPosition;
+	public AudioClip windNoise;
+
+	public AudioSource footsteps;
+	public AudioSource wind;
+	public AudioSource creak;
+
+	public ParticleEmitter littleDust;
+	//public ParticleEmitter muchDust;
+
+
+	//Vector3 currentPosition;
 	enum movementState {moving, stopped};
 	movementState currentState;
 
+	public float minScheduleWait = 5f;
+	public float maxScheduleWait = 30f;
+	private int currentClip = -1;
+	private double waitTimeUntilEvent;
+	
 	/**
 	 * Play or pause audio as appropriate, based on previous and current movementStates
 	 */
@@ -25,14 +40,14 @@ public class PlayerManager : MonoBehaviour {
 			}
 			//player no longer moving
 			else {
-				audio.Stop ();
+				footsteps.Stop ();
 			}
 		}
 		//player was not moving
 		else {
 			//player started moving
 			if (currentState == movementState.moving){
-				audio.Play ();
+				footsteps.Play ();
 			}
 			//player still not moving
 			else {
@@ -44,10 +59,10 @@ public class PlayerManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		currentPosition = transform.position;
+		//currentPosition = transform.position;
 		currentState = movementState.stopped;
-		audio.clip = gravelFootsteps;
-		audio.volume = 1;
+		footsteps.clip = gravelFootsteps;
+		wind.clip = windNoise;
 
 		Controller = gameObject.GetComponent<CharacterController> ();
 
@@ -61,25 +76,6 @@ public class PlayerManager : MonoBehaviour {
 			}
 		}
 
-
-		//update currentPosition
-		/*Vector3 previousPosition = currentPosition;
-		currentPosition = transform.position;
-		
-		//update currentState
-		movementState previousState = currentState;
-		//if ((currentPosition.x != currentPosition.x) || (currentPosition.z != currentPosition.z)) {
-		//if ((previousPosition.x != currentPosition.x)) {
-		if (previousPosition != currentPosition) {
-			currentState = movementState.moving;
-			Debug.Log ("Now moving");
-		}
-		else {
-			currentState = movementState.stopped;
-			Debug.Log ("Now stopped");
-			//audio.Stop ();
-		}*/
-		/*
 		movementState previousState = currentState;
 
 		double vel = Controller.velocity.magnitude;
@@ -94,19 +90,42 @@ public class PlayerManager : MonoBehaviour {
 			//Debug.Log ("Stopped");
 		}
 
-		//update audio
+		//update footstep audio
 		updateAudio (previousState, currentState);
-	*/
+
+
+		double currentTime = AudioSettings.dspTime;
+		if (currentTime + 1.0f > waitTimeUntilEvent) {
+			if(onBridge && ((int)currentTime) % 2 == 0)
+				creak.Play();	
+			else
+			{
+				wind.PlayScheduled (waitTimeUntilEvent);
+				//muchDust.emit = true;
+			}
+			//determine next track
+			//currentClip = nextClip (currentClip);
+			//determine time until next clip plays
+			waitTimeUntilEvent += GetWaitTime ();
+		}
+
+
+	}
+
+	float GetWaitTime () {
+		float f = Random.Range (minScheduleWait, maxScheduleWait);
+		return f;
 	}
 	
 	void OnTriggerEnter(Collider other) {
 		if (other.tag.Equals ("Bridge")) {
-			//Debug.Log ("On bridge");
+			Debug.Log ("On bridge");
 			onBridge = true;
-			audio.clip = bridgeFootsteps;
-			audio.Stop ();
+			footsteps.clip = bridgeFootsteps;
+			footsteps.Stop ();
+			//littleDust.emit = false;
 			if(currentState == movementState.moving)
-				audio.Play ();
+				footsteps.Play ();
 		} else {
 			//Debug.Log ("Near button");
 			nearButton = true;
@@ -115,12 +134,13 @@ public class PlayerManager : MonoBehaviour {
 
 	void OnTriggerExit(Collider other){
 		if (other.tag.Equals ("Bridge")) {
-			//Debug.Log ("Off bridge");
+			Debug.Log ("Off bridge");
 			onBridge = false;
-			audio.clip = gravelFootsteps;
-			audio.Stop ();
+			footsteps.clip = gravelFootsteps;
+			footsteps.Stop ();
+			//littleDust.emit = true;
 			if(currentState == movementState.moving)
-				audio.Play ();
+				footsteps.Play ();
 		} else {
 			//Debug.Log ("Away button");
 			nearButton = false;
