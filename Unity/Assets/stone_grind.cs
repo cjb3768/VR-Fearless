@@ -3,11 +3,12 @@ using System.Collections;
 
 public class stone_grind : MonoBehaviour {
 
-	public AudioClip myAudioClip;
+	public AudioSource audioSource;
+	public float volume;
 
 	// Use this for initialization
 	void Start () {
-		audio.clip = myAudioClip;
+		audioSource.volume = volume;
 	}
 	
 	// Update is called once per frame
@@ -17,7 +18,7 @@ public class stone_grind : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		if (other.tag == "Wall") {
-			audio.Play ();
+			audioSource.Play ();
 		}
 	}
 }

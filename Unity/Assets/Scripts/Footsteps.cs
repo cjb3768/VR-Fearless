@@ -4,6 +4,7 @@ using System.Collections;
 public class Footsteps : MonoBehaviour {
 
 	public AudioClip myAudioClip;
+	public float audioVolume;
 	Vector3 currentPosition;
 	enum movementState {moving, stopped};
 	movementState currentState;
@@ -41,7 +42,7 @@ public class Footsteps : MonoBehaviour {
 		currentPosition = transform.position;
 		currentState = movementState.stopped;
 		audio.clip = myAudioClip;
-		audio.volume = 1;
+		audio.volume = audioVolume;
 
 	}
 	
