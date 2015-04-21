@@ -40,10 +40,10 @@ public class Second_Menu_Script : MonoBehaviour {
 		if (mainpage == 1) {
 			//hslidervalue = EditorGUI.IntSlider(Rect(Screen.width/ 2 - ButtonWidth/2, Screen.height/2 - 100, ButtonWidth, 20), hslidervalue, 1.0f, 2.0f);
 			GUILayout.BeginArea (new Rect (Screen.width / 2 - ButtonWidth / 2, Screen.height / 2 - 200, ButtonWidth, 400));
-			hslidervalue = GUILayout.HorizontalSlider(hslidervalue, 1.0f, 2.0f);
+			//hslidervalue = GUILayout.HorizontalSlider(hslidervalue, 1.0f, 2.0f);
 			//hslidervalue = (int)hslidervalue;
 			if (GUILayout.Button ("Start", GUILayout.Height (ButtonHeight))) {
-				Application.LoadLevel ((int)hslidervalue + 3);
+				Application.LoadLevel ("heightterrain");
 			}
 			if(GUILayout.Button("Back", GUILayout.Height(ButtonHeight))) {
 				mainpage = 0;
@@ -54,10 +54,10 @@ public class Second_Menu_Script : MonoBehaviour {
 		}
 		if (mainpage == 2) {
 			GUILayout.BeginArea (new Rect (Screen.width / 2 - ButtonWidth / 2, Screen.height / 2 - 200, ButtonWidth, 400));
-			hslidervalue = GUILayout.HorizontalSlider(hslidervalue, 1.0f, 2.0f);
-			hslidervalue = (int)hslidervalue;
+			//hslidervalue = GUILayout.HorizontalSlider(hslidervalue, 1.0f, 2.0f);
+			//hslidervalue = (int)hslidervalue;
 			if (GUILayout.Button ("Start", GUILayout.Height (ButtonHeight))) {
-				Application.LoadLevel ((int)hslidervalue + 2);
+				Application.LoadLevel ("claustrophobia2");
 			}
 			if(GUILayout.Button("Back", GUILayout.Height(ButtonHeight))) {
 				mainpage = 0;
