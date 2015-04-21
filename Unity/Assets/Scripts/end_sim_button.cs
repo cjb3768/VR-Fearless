@@ -13,7 +13,7 @@ public class end_sim_button : MonoBehaviour {
 	void Update () {
 		if (nearButton) {
 			if (Input.GetMouseButtonDown (0)) {
-				Application.LoadLevel (1);
+				Application.LoadLevel ("Meadow");
 			}
 		}
 	}
