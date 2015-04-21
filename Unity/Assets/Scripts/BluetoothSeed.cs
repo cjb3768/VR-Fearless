@@ -69,6 +69,8 @@ public class BluetoothSeed : MonoBehaviour {
 
 	void Update() { 
 		if (Input.GetKeyDown (KeyCode.Escape)){
+			writeLogToFile (summaryPackets);
+			serial.Close();
 			Application.Quit();
 		}
 	} 
