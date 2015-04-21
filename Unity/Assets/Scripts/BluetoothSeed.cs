@@ -6,9 +6,11 @@ using System.IO.Ports;
 
 public class BluetoothSeed : MonoBehaviour {
 
-	public static SerialPort serial = new SerialPort("COM4", 115200, Parity.None, 8, StopBits.One);
-	//public static SerialPort serialIn = new SerialPort("COM5", 115200, Parity.None, 8, StopBits.One);
+	public RuntimePlatform currentPlatform;
 
+	//public static SerialPort serial = new SerialPort(serialPortName, 115200, Parity.None, 8, StopBits.One);
+	public SerialPort serial;
+	string serialPortName;
 
 	//public string message;
 	public string filePath;
@@ -36,8 +38,23 @@ public class BluetoothSeed : MonoBehaviour {
 
 	void Start() {
 
+		currentPlatform = Application.platform;
+
+		if (currentPlatform == RuntimePlatform.WindowsEditor || currentPlatform == RuntimePlatform.WindowsPlayer) {
+			Debug.Log ("Running on Windows");
+			serialPortName = "COM4";
+			filePath = "Logs\\";
+		} else if (currentPlatform == RuntimePlatform.OSXEditor || currentPlatform == RuntimePlatform.OSXPlayer) {
+			Debug.Log ("Running on OSX");
+			//get port name
+			filePath = "Logs/";
+		}
+
+		serial = new SerialPort(serialPortName, 115200, Parity.None, 8, StopBits.One);
+
 		DontDestroyOnLoad (transform.gameObject);
-		filePath = "Logs\\";
+
+		//filePath = "Logs\\";
 
 		summaryPackets = new List<SummaryPacket>();
 
