@@ -18,14 +18,14 @@ public class Wall_move : MonoBehaviour {
 	void FixedUpdate () {
 		if (Input.GetAxis ("Fire1") < 0.0f) {
 			if (this.tag == "MoveMore") {
-				if (this.transform.position.x <= initpos.x) {
+				if (this.transform.position.x < (initpos.x + 7)) {
 					Vector3 pos = this.transform.position;
 					pos.x += 0.05f;
 					this.transform.position = pos;
 				}
 			}
 			if(this.tag == "MoveLess") {
-				if(this.transform.position.x >= (initpos.x - 10)) {
+				if(this.transform.position.x >= (initpos.x - 7)) {
 					Vector3 pos = this.transform.position;
 					pos.x -= 0.05f;
 					this.transform.position = pos;
@@ -34,14 +34,14 @@ public class Wall_move : MonoBehaviour {
 		}
 		if (Input.GetAxis ("Fire1") > 0.0f) {
 			if (this.tag == "MoveMore") {
-				if (this.transform.position.x >= (initpos.x + 10)) {
+				if (this.transform.position.x > initpos.x) {
 					Vector3 pos = this.transform.position;
 					pos.x -= 0.05f;
 					this.transform.position = pos;
 				}
 			}
 			if(this.tag == "MoveLess") {
-				if(this.transform.position.x <= initpos.x) {
+				if(this.transform.position.x < initpos.x) {
 					Vector3 pos = this.transform.position;
 					pos.x += 0.05f;
 					this.transform.position = pos;
