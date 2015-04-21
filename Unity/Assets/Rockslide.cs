@@ -3,13 +3,15 @@ using System.Collections;
 
 public class Rockslide : MonoBehaviour {
 
-	public AudioClip myAudioClip;
-	bool hasHappened;
+	//public AudioClip myAudioClip;
+	public AudioSource myAudioSource;
+	bool audioHasPlayed;
 
 	// Use this for initialization
 	void Start () {
-		audio.clip = myAudioClip;
-		hasHappened = false;
+		//myAudioSource.clip = myAudioClip;
+		audioHasPlayed = false;
+		myAudioSource.volume = 1;
 	}
 	
 	// Update is called once per frame
@@ -18,10 +20,11 @@ public class Rockslide : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other) {
-		if (other.tag == "Rockslide") {
-			if(hasHappened == false) {
-				hasHappened = true;
-				audio.Play();
+		if (other.tag.Equals ("Rockslide")) {
+			if (audioHasPlayed == false) {
+				Debug.Log ("Rockslide Collider entered, sound should trigger");
+				audioHasPlayed = true;
+				myAudioSource.Play ();
 			}
 		}
 	}
