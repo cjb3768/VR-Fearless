@@ -38,7 +38,7 @@ public class Main_Menu_Script : MonoBehaviour {
 			GUILayout.BeginArea (new Rect (Screen.width / 2 - ButtonWidth / 2, Screen.height / 2 - 200, ButtonWidth, 400));
 			//hslidervalue = GUILayout.HorizontalSlider(hslidervalue, 1.0f, 2.0f);
 			if (GUILayout.Button ("Begin Acclimation", GUILayout.Height (ButtonHeight))) {
-				Application.LoadLevel (1);
+				Application.LoadLevel ("Meadow");
 			}
 			if(GUILayout.Button("Back", GUILayout.Height(ButtonHeight))) {
 				mainpage = 0;

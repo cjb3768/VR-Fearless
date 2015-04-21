@@ -13,7 +13,7 @@ public class end_sim_calm : MonoBehaviour {
 	void Update () {
 		if (nearButton) {
 			if (Input.GetMouseButtonDown (0)) {
-				Application.LoadLevel (2);
+				Application.LoadLevel ("Second_Menu");
 			}
 		}
 	}
