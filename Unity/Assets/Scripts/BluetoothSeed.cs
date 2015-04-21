@@ -42,11 +42,11 @@ public class BluetoothSeed : MonoBehaviour {
 
 		if (currentPlatform == RuntimePlatform.WindowsEditor || currentPlatform == RuntimePlatform.WindowsPlayer) {
 			Debug.Log ("Running on Windows");
-			serialPortName = "COM4";
+			serialPortName = "COM4"; //change to match your bioharness's com port
 			filePath = "Logs\\";
 		} else if (currentPlatform == RuntimePlatform.OSXEditor || currentPlatform == RuntimePlatform.OSXPlayer) {
 			Debug.Log ("Running on OSX");
-			//get port name
+			serialPortName = "/dev/tty.BHBioharnessBHBHT010906"; //change this to match your bioharness's serial port
 			filePath = "Logs/";
 		}
 
