@@ -12,7 +12,7 @@ public class end_sim_button : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (nearButton) {
-			if (Input.GetMouseButtonDown (0)) {
+			if (Input.GetMouseButtonDown (0) || Input.GetButtonDown("A Button") || Input.GetButtonDown("B Button") || Input.GetButtonDown("X Button") || Input.GetButtonDown("Y Button")) {
 				Application.LoadLevel ("Meadow");
 			}
 		}
@@ -21,6 +21,14 @@ public class end_sim_button : MonoBehaviour {
 	void OnTriggerEnter(Collider other) {
 		if (other.tag == "Button") {
 			nearButton = true;
+		}
+	}
+
+	void OnTriggerExit(Collider other)
+	{
+		if(other.tag.Equals ("Button"))
+		{
+			nearButton = false;
 		}
 	}
 }
