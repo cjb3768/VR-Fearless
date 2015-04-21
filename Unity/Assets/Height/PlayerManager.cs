@@ -72,7 +72,7 @@ public class PlayerManager : MonoBehaviour {
 	void Update () {
 		if (nearButton) {
 			if (Input.GetMouseButtonDown (0) || Input.GetButtonDown("A Button") || Input.GetButtonDown("B Button") || Input.GetButtonDown("X Button") || Input.GetButtonDown ("Y Button")) {
-				Application.LoadLevel (0);
+				Application.LoadLevel ("Meadow");
 			}
 		}
 
