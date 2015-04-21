@@ -10,7 +10,7 @@ public class BluetoothSeed : MonoBehaviour {
 	//public static SerialPort serialIn = new SerialPort("COM5", 115200, Parity.None, 8, StopBits.One);
 
 
-	public string message;
+	//public string message;
 	public string filePath;
 	public System.IO.StreamWriter outputFile;
 
@@ -35,6 +35,8 @@ public class BluetoothSeed : MonoBehaviour {
 	public CRC8 crc = new CRC8(CRC8_POLY);
 
 	void Start() {
+
+		DontDestroyOnLoad (transform.gameObject);
 		filePath = "Logs\\";
 
 		summaryPackets = new List<SummaryPacket>();
@@ -54,7 +56,7 @@ public class BluetoothSeed : MonoBehaviour {
 	
 	void OnGUI()    {
 
-		GUI.Label (new Rect (10, 160, 100, 220), "Port Status: " + message);
+		//GUI.Label (new Rect (10, 160, 100, 220), "Port Status: " + message);
 		
 	}
 
