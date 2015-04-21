@@ -18,6 +18,11 @@ public class Second_Menu_Script : MonoBehaviour {
 	
 	}
 
+	void Awake(){
+		Screen.showCursor = true;
+		Screen.lockCursor = false;
+	}
+
 	// GUI buttons for loading stuff
 	void OnGUI () {
 		GUI.DrawTexture (new Rect (0, 0, Screen.width, Screen.height), dreams);
