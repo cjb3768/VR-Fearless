@@ -221,13 +221,13 @@ public class BluetoothSeed : MonoBehaviour {
 			if (sp.IsOpen) 
 			{
 				sp.Close();
-				message = "Closing port, because it was already open!";
+				//message = "Closing port, because it was already open!";
 			}
 			else 
 			{
 				sp.Open(); 
 				sp.ReadTimeout = 1000;  
-				message = "Port Opened!";
+				//message = "Port Opened!";
 			}
 		}
 		else 
