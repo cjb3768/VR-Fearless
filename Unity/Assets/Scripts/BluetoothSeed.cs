@@ -12,6 +12,8 @@ public class BluetoothSeed : MonoBehaviour {
 	public SerialPort serial;
 	string serialPortName;
 
+	public DateTime currentTime;
+
 	//public string message;
 	public string filePath;
 	public System.IO.StreamWriter outputFile;
@@ -87,6 +89,7 @@ public class BluetoothSeed : MonoBehaviour {
 		//char[] s = new char[bytes]; //this one got us 5 byte returns in response to btlinkConfig
 		byte[] s = new byte[bytes];
 		int r=serial.Read(s,0,bytes);
+		currentTime = DateTime.Now;
 		//int r = serial.ReadExisting(
 		Debug.Log ("read "+r+" bytes: ");
 		for (int i=0; i<r; i++) {
