@@ -32,6 +32,8 @@ public class BluetoothSeed : MonoBehaviour {
 	public static byte[] summaryPacketsStopRequest = {STX, (byte)0xBD , 0x02, 0x00, 0x00, 0x00, ETX};
 	public static byte[] btLinkConfigPacket = {STX, (byte) 0xA4, 0x04, (byte) 0x0e, 0x00, 0x00, 0x00, 0x00, ETX}; 
 
+	public PositionTracker pTracker;
+
 	/* for people who may be reading this code in the future: look in ZephyrPacket.cs for sample packets for ECG, breathing rate, etc */
 	/* specific information about the format of the packets can be found in the Bioharness Bluetooth Comms Link Specification document that comes with the bioharness SDK */
 	
@@ -211,8 +213,14 @@ public class BluetoothSeed : MonoBehaviour {
 
 		outputFile = new System.IO.StreamWriter(@filePath);
 
+		List<PositionTracker.playerPosition> pp = pTracker.positions;
+
 		using (outputFile){
-			foreach (SummaryPacket sp in packets){
+			outputFile.WriteLine("#Timestamp, Heart Rate, Heart Rate Variability, Heart Rate Confidence, Current Scene, (xPos, yPos, zPos), (wRot, xRot, yRot, zRot)");
+			for(int i=0;i<packets.Count;i++){
+				SummaryPacket sp = packets[i];
+
+
 				hrs = (sp.getTimestampMilliseconds () / 3600000);
 				min = ((sp.getTimestampMilliseconds () % 3600000) / 60000);
 				sec = (((sp.getTimestampMilliseconds () % 3600000) % 60000) / 1000);
@@ -223,7 +231,19 @@ public class BluetoothSeed : MonoBehaviour {
 					+ sp.getHeartRate() + ","
 					+ sp.getHeartRateVariability() + ","
 					+ sp.getHeartRateConfidence() + ","
-					+ sp.getCurrentScene() + "\n";
+					+ sp.getCurrentScene();
+
+				try{
+					PositionTracker.playerPosition currPos=pp[i];
+					lineToPrint+=", ("+currPos.xPos+", "+currPos.yPos+", "+currPos.zPos+"), ("
+						+currPos.wRot+", "+currPos.xRot+", "+currPos.yRot+", "+currPos.zRot+")";
+				}
+				catch{
+				}
+				
+
+				lineToPrint += "\n";
+
 				outputFile.WriteLine(lineToPrint);
 			}
 		}

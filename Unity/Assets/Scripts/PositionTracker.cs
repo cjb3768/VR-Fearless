@@ -2,6 +2,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+//using System.Drawing.Imaging;
 
 public class PositionTracker : MonoBehaviour {
 
@@ -12,10 +14,10 @@ public class PositionTracker : MonoBehaviour {
 	};
 	
 	public GameObject player;
-	public bool inModule = false;
-	public int numFramesSinceScreenCap = 0;
-	public int framesBetweenScreenCaps;
-	public string currentScreenShotName = "";
+	private bool inModule = false;
+	private int numFramesSinceScreenCap = 0;
+	private int framesBetweenScreenCaps;
+	private string currentScreenShotName = "";
 	public DateTime currentTime;
 
 	public RuntimePlatform currentPlatform;
@@ -33,10 +35,7 @@ public class PositionTracker : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		currentTime = DateTime.Now;
-		currentScreenShotName = currentTime.Month + "_" + currentTime.Day + "_"
-			+ currentTime.Year + "_" + currentTime.Hour + "_" 
-			+ currentTime.Minute + "_" + currentTime.Second;
+
 		/*
 		addPositionToList(Application.loadedLevel);
 		int i = positions.Count;
@@ -111,18 +110,49 @@ public class PositionTracker : MonoBehaviour {
 		//}
 	}
 
-	void captureScreenShot() {
+	//Use Unity's inbuilt screenshot taking application
+	//Note that at time of writing the function causes at best a "jerk" every time it is called, and unplayable lag at the worst.
+	//It depends on the machine specs, it seems.
+	void unityScreenShot() {
 		string fileName = "";
+
+		currentTime = DateTime.Now;
+		currentScreenShotName = currentTime.Month + "_" + currentTime.Day + "_"
+			+ currentTime.Year + "_" + currentTime.Hour + "_" 
+				+ currentTime.Minute + "_" + currentTime.Second;
 
 		if (currentPlatform == RuntimePlatform.WindowsEditor || currentPlatform == RuntimePlatform.WindowsPlayer) {
 			//Debug.Log ("Running on Windows");
 			fileName = "Logs/Screenshots/";
+			fileName += currentScreenShotName + ".jpg";
+			
+			Application.CaptureScreenshot(fileName);
 		} else if (currentPlatform == RuntimePlatform.OSXEditor || currentPlatform == RuntimePlatform.OSXPlayer) {
 			//Debug.Log ("Running on OSX");
-			fileName = "Logs/Screenshots/";
+			//fileName = "Logs/Screenshots/";
+
+			//It seems CaptureScreenshot and mac doesn't play nicely together if you specify anything more than a filename
+
+			//Application.CaptureScreenshot(currentScreenShotName+".png");
+			Application.CaptureScreenshot("test.png");
 		}
 
-		fileName += currentScreenShotName + ".jpg";
-		Application.CaptureScreenshot(fileName);
+
+	}
+
+	//Note that this method must be attached to a texture to work. Will not work in current implementation.
+	void captureScreenShot(){
+		Texture2D tex = new Texture2D (Screen.width, Screen.height, TextureFormat.RGB24,false);
+		tex.ReadPixels (new Rect (0, 0, Screen.width, Screen.height), 0, 0);
+		tex.Apply ();
+		 
+		currentTime = DateTime.Now;
+		currentScreenShotName = currentTime.Month + "_" + currentTime.Day + "_"
+			+ currentTime.Year + "_" + currentTime.Hour + "_" 
+			+ currentTime.Minute + "_" + currentTime.Second + ".jpg";
+
+		byte[] pic = tex.EncodeToJPG();
+		Destroy (tex);
+		File.WriteAllBytes (Application.dataPath+"/ ../"+currentScreenShotName,pic);
 	}
 }
