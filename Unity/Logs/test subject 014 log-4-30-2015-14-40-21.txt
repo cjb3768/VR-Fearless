@@ -1,0 +1,1 @@
+#Timestamp, Heart Rate, Heart Rate Variability, Heart Rate Confidence, Current Scene, (xPos, yPos, zPos), (wRot, xRot, yRot, zRot)
