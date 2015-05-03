@@ -1,6 +1,6 @@
 % 1. Title: test_subject_003-1_log-4-29-2015-11-28-32.txt
 
-@RELATION: vrdata
+@RELATION vrdata
 
 @ATTRIBUTE ratePercent NUMERIC
 @ATTRIBUTE rateDiff NUMERIC
