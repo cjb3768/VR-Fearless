@@ -5,7 +5,7 @@
 @ATTRIBUTE ratePercent NUMERIC
 @ATTRIBUTE rateDiff NUMERIC
 @ATTRIBUTE variabilityPercent NUMERIC
-@ATTRIBUTE variabilityDiff NUMBERIC
+@ATTRIBUTE variabilityDiff NUMERIC
 @ATTRIBUTE class {VR-Fear0, VR-Fear1, VR-Fear2, VR-Fear3, VR-Fear4}
 @DATA
 %average heart rate: 74.169231, average heart variability: 60.869565
