@@ -1,0 +1,9 @@
+#Timestamp, Heart Rate, Heart Rate Variability, Heart Rate Confidence, Current Scene, (xPos, yPos, zPos), (wRot, xRot, yRot, zRot)
+5/3/2015,18:49:46,0,65535,0,0, (0, 0, 0), (0, 0, 0, 0)
+
+5/3/2015,18:49:47,0,65535,0,0, (0, 0, 0), (0, 0, 0, 0)
+
+5/3/2015,18:49:48,0,65535,0,0, (0, 0, 0), (0, 0, 0, 0)
+
+5/3/2015,18:49:49,0,65535,0,0, (0, 0, 0), (0, 0, 0, 0)
+
