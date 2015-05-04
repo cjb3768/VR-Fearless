@@ -1,0 +1,88 @@
+Study Statistics
+
+Male/Female: 17/3
+Age:
+	Mean:				22.65
+	Variance:			68.77
+	Std. Dev.:			8.29
+
+Completed All Tests/Ended Early: 17/3
+
+Fear Statistics
+
+Claimed Fears:
+Acrophobia Only/Claustrophobia Only/Both/Neither: 6/2/3/9
+
+Pre-study: scale from 0-5, 0 meaning no fear, 5 meaning crippling fear
+Post-study: scale from 1-10, 1 meaning no effect, 10 meaning overly strong effect
+
+Acrophobia Stats:
+A) Claims Fear
+	Claimed Pre-Study Levels
+		Mean Fear Level:		2.78
+		Variance:				1.19
+		Std. Dev.:				1.09
+	
+	Claimed Post-Study Results
+		Mean Anxiety Response: 	3.89
+		Variance:				4.86
+		Std. Dev.:				2.20
+		
+B) Claims No Fear
+	Claimed Pre-Study Levels
+		Mean Fear Level:		0.00
+		Variance:				0.00
+		Std. Dev.:				0.00
+	
+	Claimed Post-Study Results
+		Mean Anxiety Response:	3.45
+		Variance:				5.07
+		Std. Dev.:				2.25
+		
+C) All Studied
+	Claimed Pre-Study Levels
+		Mean Fear Level:		1.25
+		Variance:				2.51
+		Std. Dev.:				1.58
+	
+	Claimed Post-Study Results
+		Mean Anxiety Response:	3.65
+		Variance:				4.77
+		Std. Dev.:				2.18
+		
+		
+Claustrophobia Stats:
+A) Claims Fear
+	Claimed Pre-Study Levels
+		Mean Fear Level:		3.40
+		Variance:				0.80
+		Std. Dev.:				0.89
+	
+	Claimed Post-Study Results
+		Mean Anxiety Response:	5.60
+		Variance:				3.80
+		Std. Dev.:				1.95
+		
+B) Claims No Fear
+	Claimed Pre-Study Levels
+		Mean Fear Level:		0.00
+		Variance:				0.00
+		Std. Dev.:				0.00
+	
+	Claimed Post-Study Results
+		Mean Anxiety Response:	3.07
+		Variance:				3.78
+		Std. Dev.:				1.94
+		
+C) All Studied
+	Claimed Pre-Study Levels
+		Mean Fear Level:		0.85
+		Variance:				2.45
+		Std. Dev.:				1.57
+	
+	Claimed Post-Study Results
+		Mean Anxiety Response:	3.70
+		Variance:				4.85
+		Std. Dev.:				2.20
+		
+		
