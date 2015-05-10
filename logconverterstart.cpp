@@ -278,11 +278,15 @@ int main(int argc, char* argv[])
             
             baselineDone = true;
 
+		
 		//Add the initial data to the file
+		//Disabled at the moment
+		/*
 		for(int i=0;i<initialIter;i++)
 		{
 			calcDiffsAndPrint(avgRate,avgVar,initialData[i].heartrate,initialData[i].variability,initialData[i].curSim);
 		}
+		*/
 
 
 
