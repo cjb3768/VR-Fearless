@@ -8,7 +8,7 @@ public class EventAudio : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		audio.volume = 1;
+		GetComponent<AudioSource>().volume = 1;
 	}
 	
 	// Update is called once per frame

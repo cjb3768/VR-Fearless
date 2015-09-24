@@ -21,14 +21,14 @@ public class Footsteps : MonoBehaviour {
 			}
 			//player no longer moving
 			else {
-				audio.Stop ();
+				GetComponent<AudioSource>().Stop ();
 			}
 		}
 		//player was not moving
 		else {
 			//player started moving
 			if (currentState == movementState.moving){
-				audio.Play ();
+				GetComponent<AudioSource>().Play ();
 			}
 			//player still not moving
 			else {
@@ -41,8 +41,8 @@ public class Footsteps : MonoBehaviour {
 	void Start () {
 		currentPosition = transform.position;
 		currentState = movementState.stopped;
-		audio.clip = myAudioClip;
-		audio.volume = audioVolume;
+		GetComponent<AudioSource>().clip = myAudioClip;
+		GetComponent<AudioSource>().volume = audioVolume;
 
 	}
 	

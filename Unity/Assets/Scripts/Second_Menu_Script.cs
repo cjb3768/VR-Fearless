@@ -19,7 +19,7 @@ public class Second_Menu_Script : MonoBehaviour {
 	}
 
 	void Awake(){
-		Screen.showCursor = true;
+		Cursor.visible = true;
 		Screen.lockCursor = false;
 	}
 

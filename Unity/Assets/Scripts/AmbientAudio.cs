@@ -40,7 +40,7 @@ public class AmbientAudio : MonoBehaviour {
 	void Start () {
 		currentClip = nextClip(sourceAudioClips.Length);
 		waitTimeUntilEvent = AudioSettings.dspTime + 5.0f;
-		audio.volume = 1;
+		GetComponent<AudioSource>().volume = 1;
 	}
 	
 	// Update is called once per frame
@@ -48,8 +48,8 @@ public class AmbientAudio : MonoBehaviour {
 	
 		double currentTime = AudioSettings.dspTime;
 		if (currentTime + 1.0f > waitTimeUntilEvent) {
-			audio.clip = sourceAudioClips [currentClip];
-			audio.PlayScheduled (waitTimeUntilEvent);
+			GetComponent<AudioSource>().clip = sourceAudioClips [currentClip];
+			GetComponent<AudioSource>().PlayScheduled (waitTimeUntilEvent);
 			//determine next track
 			currentClip = nextClip (currentClip);
 			//determine time until next clip plays

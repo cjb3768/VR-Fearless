@@ -202,6 +202,7 @@ public class BluetoothSeed : MonoBehaviour {
 	}
 
 	public void writeLogToFile(List<SummaryPacket> packets){
+		Debug.Log ("Writing log to file");
 		long hrs;
 		long min;
 		long sec;
@@ -216,35 +217,37 @@ public class BluetoothSeed : MonoBehaviour {
 		List<PositionTracker.playerPosition> pp = pTracker.positions;
 
 		using (outputFile){
-			outputFile.WriteLine("#Timestamp, Heart Rate, Heart Rate Variability, Heart Rate Confidence, Current Scene, (xPos, yPos, zPos), (wRot, xRot, yRot, zRot)");
-			for(int i=0;i<packets.Count;i++){
-				SummaryPacket sp = packets[i];
+			if(packets.Count > 0){
+				outputFile.WriteLine("#Timestamp, Heart Rate, Heart Rate Variability, Heart Rate Confidence, Current Scene, (xPos, yPos, zPos), (wRot, xRot, yRot, zRot)");
+				for(int i=0;i<packets.Count;i++){
+					SummaryPacket sp = packets[i];
 
 
-				hrs = (sp.getTimestampMilliseconds () / 3600000);
-				min = ((sp.getTimestampMilliseconds () % 3600000) / 60000);
-				sec = (((sp.getTimestampMilliseconds () % 3600000) % 60000) / 1000);
-				string lineToPrint = sp.getTimestampMonth() + "/" 
-					+ sp.getTimestampDay() + "/"
-					+ sp.getTimestampYear() + ","
-					+ hrs + ":" + min + ":" + sec + ","
-					+ sp.getHeartRate() + ","
-					+ sp.getHeartRateVariability() + ","
-					+ sp.getHeartRateConfidence() + ","
-					+ sp.getCurrentScene();
+					hrs = (sp.getTimestampMilliseconds () / 3600000);
+					min = ((sp.getTimestampMilliseconds () % 3600000) / 60000);
+					sec = (((sp.getTimestampMilliseconds () % 3600000) % 60000) / 1000);
+					string lineToPrint = sp.getTimestampMonth() + "/" 
+						+ sp.getTimestampDay() + "/"
+						+ sp.getTimestampYear() + ","
+						+ hrs + ":" + min + ":" + sec + ","
+						+ sp.getHeartRate() + ","
+						+ sp.getHeartRateVariability() + ","
+						+ sp.getHeartRateConfidence() + ","
+						+ sp.getCurrentScene();
 
-				try{
-					PositionTracker.playerPosition currPos=pp[i];
-					lineToPrint+=", ("+currPos.xPos+", "+currPos.yPos+", "+currPos.zPos+"), ("
-						+currPos.wRot+", "+currPos.xRot+", "+currPos.yRot+", "+currPos.zRot+")";
-				}
-				catch{
-				}
+					try{
+						PositionTracker.playerPosition currPos=pp[i];
+						lineToPrint+=", ("+currPos.xPos+", "+currPos.yPos+", "+currPos.zPos+"), ("
+							+currPos.wRot+", "+currPos.xRot+", "+currPos.yRot+", "+currPos.zRot+")";
+					}
+					catch{
+					}
 				
 
-				lineToPrint += "\n";
+					lineToPrint += "\n";
 
-				outputFile.WriteLine(lineToPrint);
+					outputFile.WriteLine(lineToPrint);
+				}
 			}
 		}
 	}
@@ -363,7 +366,7 @@ public class BluetoothSeed : MonoBehaviour {
 	}
 	
 	void OnApplicationQuit() {
-		writeLogToFile (summaryPackets);
+		//writeLogToFile (summaryPackets);
 		serial.Close();
 	}
 }
