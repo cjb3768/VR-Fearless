@@ -73,7 +73,6 @@ public class PositionTracker : MonoBehaviour {
 		lastScene = currentScene;
 		currentScene = Application.loadedLevel;
 		addPositionToList(lastScene,currentScene);
-		int i = positions.Count;
 		
 		if (Application.loadedLevel == 1 || Application.loadedLevel == 3 || Application.loadedLevel == 4) {
 			Debug.Log ("In a module");
@@ -81,9 +80,7 @@ public class PositionTracker : MonoBehaviour {
 		else {
 			Debug.Log ("In a menu");
 		}
-		
-		Debug.Log ("Player position: (" + positions[i].xPos + ", " + positions[i].yPos + ", " + positions[i].zPos + ")\t" 
-		           + "Player rotation: (" + positions[i].wRot + ", " + positions[i].xRot + ", " + positions[i].yRot + ", " + positions[i].zRot + ")\n");
+
 	}
 
 	void addPositionToList(int prevScene, int sceneIndex){
@@ -95,7 +92,30 @@ public class PositionTracker : MonoBehaviour {
 			inModule = false;
 		}
 
-		if (sceneIndex == 1 || sceneIndex == 3 || sceneIndex == 4) {
+		if (sceneIndex == 0 || sceneIndex == 2) {
+			//in a menu
+			inModule = false;
+			
+			//setPositionTime (p);
+			
+			currentTime = DateTime.Now;
+			p.hour = currentTime.Hour;
+			p.minute = currentTime.Minute;
+			p.second = currentTime.Second;
+			p.millisecond = currentTime.Millisecond;
+			
+			p.xPos = 0;
+			p.yPos = 0;
+			p.zPos = 0;
+			p.wRot = 0;
+			p.xRot = 0;
+			p.yRot = 0;
+			p.zRot = 0;
+			
+			positions.Add (p);
+		}
+
+		else {
 			//in a phobia module
 			if (inModule == false){
 				player = GameObject.Find ("OVRPlayerController");
@@ -120,29 +140,10 @@ public class PositionTracker : MonoBehaviour {
 
 			positions.Add (p);
 		}
-		else{
-			//in a menu
-			inModule = false;
 
-			//setPositionTime (p);
-
-			currentTime = DateTime.Now;
-			p.hour = currentTime.Hour;
-			p.minute = currentTime.Minute;
-			p.second = currentTime.Second;
-			p.millisecond = currentTime.Millisecond;
-
-			p.xPos = 0;
-			p.yPos = 0;
-			p.zPos = 0;
-			p.wRot = 0;
-			p.xRot = 0;
-			p.yRot = 0;
-			p.zRot = 0;
-
-			positions.Add (p);
-		}
-
+		int i = positions.Count;
+		Debug.Log ("Player position: (" + p.xPos + ", " + p.yPos + ", " + p.zPos + ")\t" 
+		           + "Player rotation: (" + p.wRot + ", " + p.xRot + ", " + p.yRot + ", " + p.zRot + ")\n");
 	}
 
 	void setPositionTime(playerPosition p){
@@ -242,40 +243,6 @@ public class PositionTracker : MonoBehaviour {
 				
 				outputFile.WriteLine(lineToPrint);
 			}
-			/**
-			if(packets.Count > 0){
-				outputFile.WriteLine("#Timestamp, Heart Rate, Heart Rate Variability, Heart Rate Confidence, Current Scene, (xPos, yPos, zPos), (wRot, xRot, yRot, zRot)");
-				for(int i=0;i<packets.Count;i++){
-					SummaryPacket sp = packets[i];
-					
-					
-					hrs = (sp.getTimestampMilliseconds () / 3600000);
-					min = ((sp.getTimestampMilliseconds () % 3600000) / 60000);
-					sec = (((sp.getTimestampMilliseconds () % 3600000) % 60000) / 1000);
-					string lineToPrint = sp.getTimestampMonth() + "/" 
-						+ sp.getTimestampDay() + "/"
-							+ sp.getTimestampYear() + ","
-							+ hrs + ":" + min + ":" + sec + ","
-							+ sp.getHeartRate() + ","
-							+ sp.getHeartRateVariability() + ","
-							+ sp.getHeartRateConfidence() + ","
-							+ sp.getCurrentScene();
-					
-					try{
-						PositionTracker.playerPosition currPos=pp[i];
-						lineToPrint+=", ("+currPos.xPos+", "+currPos.yPos+", "+currPos.zPos+"), ("
-							+currPos.wRot+", "+currPos.xRot+", "+currPos.yRot+", "+currPos.zRot+")";
-					}
-					catch{
-					}
-					
-					
-					lineToPrint += "\n";
-					
-					outputFile.WriteLine(lineToPrint);
-				}
-			}
-			*/
 		}
 	}
 }
