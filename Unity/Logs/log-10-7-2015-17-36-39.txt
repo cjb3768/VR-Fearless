@@ -1,0 +1,1 @@
+#Timestamp-Hour:Minute:Second:Millisecond, Current Scene Index, (xPos, yPos, zPos), (wRot, xRot, yRot, zRot)

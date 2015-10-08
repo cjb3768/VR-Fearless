@@ -30,6 +30,7 @@ public class PositionTracker : MonoBehaviour {
 	public RuntimePlatform currentPlatform;
 
 	public List<playerPosition> positions;
+	public List<playerPosition> replayPositions;
 
 	// Use this for initialization
 	void Start () {
@@ -245,4 +246,10 @@ public class PositionTracker : MonoBehaviour {
 			}
 		}
 	}
+
+	//public string parseLogLine(StreamReader inFile){
+	//	string 
+	//}
+
+
 }
