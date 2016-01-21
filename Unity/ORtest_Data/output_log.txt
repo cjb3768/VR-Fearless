@@ -2,23 +2,23 @@ Initialize engine version: 4.6.2f1 (bd99309c2ad7)
 GfxDevice: creating device client; threaded=1
 Direct3D:
     Version:  Direct3D 11.0 [level 11.0]
-    Renderer: Intel(R) HD Graphics 4000 (ID=0x166)
-    Vendor:   Intel
-    VRAM:     128 MB
+    Renderer: NVIDIA GeForce GTX 770 (ID=0x1184)
+    Vendor:   NVIDIA
+    VRAM:     1985 MB
 Begin MonoManager ReloadAssembly
-Platform assembly: C:\Users\seth.brady\Documents\GitHub\VR-Fearless\Unity\ORtest_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading C:\Users\seth.brady\Documents\GitHub\VR-Fearless\Unity\ORtest_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: C:\Users\seth.brady\Documents\GitHub\VR-Fearless\Unity\ORtest_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading C:\Users\seth.brady\Documents\GitHub\VR-Fearless\Unity\ORtest_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: C:\Users\seth.brady\Documents\GitHub\VR-Fearless\Unity\ORtest_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading C:\Users\seth.brady\Documents\GitHub\VR-Fearless\Unity\ORtest_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-- Completed reload, in  0.051 seconds
+Platform assembly: D:\Github\VR-Fearless\Unity\ORtest_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading D:\Github\VR-Fearless\Unity\ORtest_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: D:\Github\VR-Fearless\Unity\ORtest_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading D:\Github\VR-Fearless\Unity\ORtest_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: D:\Github\VR-Fearless\Unity\ORtest_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading D:\Github\VR-Fearless\Unity\ORtest_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+- Completed reload, in  0.066 seconds
 <RI> Initializing input.
 <RI> Input initialized.
-desktop: 1280x768 59Hz; virtual: 1280x768 at 0,0
-Platform assembly: C:\Users\seth.brady\Documents\GitHub\VR-Fearless\Unity\ORtest_Data\Managed\System.Core.dll (this message is harmless)
-Platform assembly: C:\Users\seth.brady\Documents\GitHub\VR-Fearless\Unity\ORtest_Data\Managed\System.dll (this message is harmless)
-UnloadTime: 3.523079 ms
+desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+Platform assembly: D:\Github\VR-Fearless\Unity\ORtest_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: D:\Github\VR-Fearless\Unity\ORtest_Data\Managed\System.dll (this message is harmless)
+UnloadTime: 0.831436 ms
 Parent of RectTransform is being set with parent property. Consider using the SetParent method instead, with the worldPositionStays argument set to false. This will retain local orientation and scale rather than world orientation and scale, which can prevent common UI scaling issues.
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
